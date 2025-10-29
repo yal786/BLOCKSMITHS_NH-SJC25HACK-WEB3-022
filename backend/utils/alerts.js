@@ -1,0 +1,170 @@
+// backend/utils/alerts.js
+// Enhanced alert database helpers with simulation support
+import { pool } from './db.js';
+
+/**
+ * Insert a new alert with optional simulation data
+ */
+export async function insertAlertWithSim({
+  txHash,
+  from,
+  to,
+  riskLevel,
+  confidence,
+  rules,
+  estLossUsd,
+  slippagePct,
+  payload,
+  simStatus = 'pending',
+  simUrl = null,
+  rawSim = null
+}) {
+  const q = `
+    INSERT INTO alerts
+      (tx_hash, "from", "to", risk_level, confidence, rules, est_loss_usd, 
+       slippage_pct, payload, sim_status, sim_url, raw_sim)
+    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
+    RETURNING *;
+  `;
+  
+  const values = [
+    txHash,
+    from || null,
+    to || null,
+    riskLevel || null,
+    confidence || 0,
+    rules ? JSON.stringify(rules) : JSON.stringify([]),
+    estLossUsd || 0,
+    slippagePct || 0,
+    payload || {},
+    simStatus,
+    simUrl,
+    rawSim ? JSON.stringify(rawSim) : null
+  ];
+  
+  const res = await pool.query(q, values);
+  return res.rows[0];
+}
+
+/**
+ * Update alert with simulation results
+ */
+export async function updateAlertSimulation(txHash, {
+  slippagePct = null,
+  estLossUsd = null,
+  simUrl = null,
+  simRaw = null,
+  simStatus = 'done'
+}) {
+  const q = `
+    UPDATE alerts
+    SET slippage_pct = COALESCE($1, slippage_pct),
+        est_loss_usd = COALESCE($2, est_loss_usd),
+        sim_url = COALESCE($3, sim_url),
+        raw_sim = COALESCE($4, raw_sim),
+        sim_status = $5,
+        created_at = created_at
+    WHERE tx_hash = $6
+    RETURNING *;
+  `;
+  
+  const values = [
+    slippagePct,
+    estLossUsd,
+    simUrl,
+    simRaw ? JSON.stringify(simRaw) : null,
+    simStatus,
+    txHash
+  ];
+  
+  try {
+    const res = await pool.query(q, values);
+    return res.rows[0];
+  } catch (error) {
+    console.error('Error updating alert simulation:', error.message);
+    throw error;
+  }
+}
+
+/**
+ * Mark simulation as failed
+ */
+export async function markSimulationFailed(txHash, errorMessage) {
+  const q = `
+    UPDATE alerts
+    SET sim_status = 'failed',
+        raw_sim = $1,
+        created_at = created_at
+    WHERE tx_hash = $2
+    RETURNING *;
+  `;
+  
+  const values = [
+    JSON.stringify({ error: errorMessage, failedAt: new Date().toISOString() }),
+    txHash
+  ];
+  
+  const res = await pool.query(q, values);
+  return res.rows[0];
+}
+
+/**
+ * Get alerts pending simulation
+ */
+export async function getPendingSimulations(limit = 10) {
+  const q = `
+    SELECT * FROM alerts
+    WHERE sim_status = 'pending'
+    ORDER BY created_at DESC
+    LIMIT $1;
+  `;
+  
+  const res = await pool.query(q, [limit]);
+  return res.rows;
+}
+
+/**
+ * Get all alerts with optional filters
+ */
+export async function getAlerts({
+  limit = 100,
+  offset = 0,
+  riskLevel = null,
+  minConfidence = null,
+  simStatus = null
+} = {}) {
+  let q = `SELECT * FROM alerts WHERE 1=1`;
+  const values = [];
+  let paramCount = 0;
+
+  if (riskLevel) {
+    paramCount++;
+    q += ` AND risk_level = $${paramCount}`;
+    values.push(riskLevel);
+  }
+
+  if (minConfidence !== null) {
+    paramCount++;
+    q += ` AND confidence >= $${paramCount}`;
+    values.push(minConfidence);
+  }
+
+  if (simStatus) {
+    paramCount++;
+    q += ` AND sim_status = $${paramCount}`;
+    values.push(simStatus);
+  }
+
+  q += ` ORDER BY created_at DESC`;
+  
+  paramCount++;
+  q += ` LIMIT $${paramCount}`;
+  values.push(limit);
+  
+  paramCount++;
+  q += ` OFFSET $${paramCount}`;
+  values.push(offset);
+
+  const res = await pool.query(q, values);
+  return res.rows;
+}

@@ -1,0 +1,134 @@
+╔═══════════════════════════════════════════════════════════╗
+║     PROTY - PROTEGO AI ASSISTANT (UPDATED!)              ║
+╚═══════════════════════════════════════════════════════════╝
+
+✅ CHATBOT UPDATED WITH PROTEGO KNOWLEDGE!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 WHAT'S NEW
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Greets users: "hi" → "👋 Hello! I'm Proty — how can I help?"
+✅ Protego expert: Knows detect→simulate→protect→report
+✅ Smart filtering: Only answers relevant questions
+✅ Clear disclaimers: Polite for unrelated topics
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚀 START USING NOW
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 1: Start Backend
+  cd backend
+  npm start
+  ✓ Wait: "Server running on port 4000"
+
+STEP 2: Start Frontend  
+  cd frontend
+  npm run dev
+  ✓ Wait: "Local: http://localhost:5173/"
+
+STEP 3: Open Dashboard
+  Browser: http://localhost:5173/dashboard
+  Click: 💬 button (bottom-right)
+
+STEP 4: Chat!
+  Try these:
+  • "hi"
+  • "What is Protego?"
+  • "How does MEV protection work?"
+  • "Explain the workflow"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💬 TRY THESE QUESTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+GREETINGS:
+  • hi
+  • hello
+  • (empty message)
+
+PROTEGO QUESTIONS:
+  • What is Protego?
+  • How does Protego protect against MEV attacks?
+  • Explain the Protego workflow
+  • What is transaction simulation?
+  • How does Flashbots work with Protego?
+
+BLOCKCHAIN/FINTECH:
+  • What is blockchain?
+  • Explain MEV attacks
+  • What is DeFi?
+  • How do smart contracts work?
+
+UNRELATED (Will show disclaimer):
+  • What is the capital of France?
+  • Tell me a joke
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🧪 RUN AUTOMATED TEST
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Test all features:
+  cd backend
+  node test-proty-protego.js
+
+Tests:
+  ✓ Greetings (hi, hello, empty)
+  ✓ Protego questions
+  ✓ MEV/Flashbots questions
+  ✓ Blockchain questions
+  ✓ Unrelated questions
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📁 WHAT CHANGED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+BACKEND (routes/proty.js):
+  ✅ Greeting detection logic
+  ✅ Protego-focused system prompt
+  ✅ Keyword filtering
+  ✅ Updated disclaimer
+
+FRONTEND (ProtyChat.jsx):
+  ✅ Updated welcome message
+  ✅ "Proty - Protego Assistant"
+  ✅ New placeholder text
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ EXPECTED BEHAVIOR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Input              | Output
+─────────────────────────────────────────────────────────
+Empty / hi / hello | 👋 Hello! I'm Proty — how can I help?
+Protego questions  | Detailed AI explanation
+MEV/blockchain     | Detailed AI explanation  
+Unrelated          | ⚠️ Disclaimer message
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚠️ IF QUOTA ERROR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+"⚠️ AI quota limit reached..."
+  → Wait 1-2 minutes
+  → OR get new API key:
+    1. Visit: https://aistudio.google.com/app/apikey
+    2. Create new key
+    3. Update backend/.env
+    4. Restart backend
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📖 FULL DOCS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Read: PROTY_PROTEGO_ASSISTANT.md
+  - Complete feature list
+  - Example conversations
+  - Technical details
+  - Troubleshooting
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎉 PROTY IS READY! START CHATTING NOW! 🚀
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

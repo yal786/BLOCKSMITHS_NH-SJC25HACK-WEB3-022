@@ -4,8 +4,6 @@ services:
     env: docker
     plan: free
     autoDeploy: true
-    buildCommand: docker-compose build backend
-    startCommand: docker-compose up backend
     envVars:
       - key: DATABASE_URL
         sync: false
@@ -23,8 +21,6 @@ services:
     env: docker
     plan: free
     autoDeploy: true
-    buildCommand: docker-compose build frontend
-    startCommand: docker-compose up frontend
     envVars:
       - key: VITE_API_BASE_URL
         sync: false
@@ -34,8 +30,6 @@ services:
     env: docker
     plan: free
     autoDeploy: true
-    buildCommand: docker-compose build db
-    startCommand: docker-compose up db
     envVars:
       - key: POSTGRES_USER
         value: admin
